@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   elasticsearch:
@@ -10,7 +10,6 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-
   logstash:
     image: docker.elastic.co/logstash/logstash:7.5.2
     command: -f /etc/logstash/conf.d/
@@ -22,8 +21,8 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     depends_on:
-      - elasticsearch
-
+      - elasticsearch 
+      
   kibana:
     image: docker.elastic.co/kibana/kibana:7.5.2
     volumes:
@@ -33,6 +32,7 @@ services:
     depends_on:
       - elasticsearch
 
+      
   userregister:
     container_name: userRegister
     build: ./UserRegisteration/
@@ -42,7 +42,7 @@ services:
       - ${USER_PORT}:${USER_PORT}
     restart: always
     depends_on:
-      - logstash
+      - logstash  
       
   helloworld:
     container_name: helloWorld
@@ -51,7 +51,7 @@ services:
       HELLOWORLD_PORT: ${HELLOWORLD_PORT}
     ports:
       - ${HELLOWORLD_PORT}:${HELLOWORLD_PORT}
-    restart: always
+    restart: always  
     depends_on:
       - logstash
       
@@ -69,3 +69,6 @@ services:
       - logstash
       - helloworld
       - userregister
+      
+         
+      

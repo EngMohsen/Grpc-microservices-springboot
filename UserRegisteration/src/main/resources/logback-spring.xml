@@ -45,7 +45,7 @@
 			<appender-ref ref="FILE-ROLLING" />
 			<appender-ref ref="STASH" />
 		</root>
-		<root name="org.springframework" level="DEUBUG">
+		<root name="org.springframework" level="INFO">
 			<appender-ref ref="CONSOLE" />
 			<appender-ref ref="FILE-ROLLING" />
 			<appender-ref ref="STASH" />
