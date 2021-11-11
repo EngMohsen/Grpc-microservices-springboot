@@ -1,0 +1,31 @@
+version: '3'
+services:
+  userregister:
+    container_name: userRegister
+    build: ./UserRegisteration/
+    environment:
+      USER_PORT: ${USER_PORT}
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    restart: always
+  helloworld:
+    container_name: helloWorld
+    build: ./helloworld/
+    environment:
+      HELLOWORLD_PORT: ${HELLOWORLD_PORT}
+    ports:
+      - ${HELLOWORLD_PORT}:${HELLOWORLD_PORT}
+    restart: always
+  gateway:
+    container_name: app-gateway
+    build: ./demogateway/
+    environment:
+      HELLO_URL: ${HELLO_URL}
+      USER_URL: ${USER_URL}
+      GATEWAY_PORT: ${GATEWAY_PORT}
+    ports:
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
+    restart: always
+    depends_on:
+      - helloworld
+      - userregister

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: mohsendoc/gateway-grpc
+          imagePullPolicy: Always
+          env:
+            - name: GATEWAY_PORT
+              value: '8080'
+            - name: USER_URL
+              value: 'user-service.default'
+            - name: HELLO_URL
+              value: 'hello-service.default'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+spec:
+  selector:
+    app: gateway 
+  type: LoadBalancer  
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP

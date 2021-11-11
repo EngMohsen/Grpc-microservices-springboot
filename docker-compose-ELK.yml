@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    volumes:
+      - ./containers/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.5.2
+    command: -f /etc/logstash/conf.d/
+    volumes:
+      - ./containers/logstash/logstash.conf:/etc/logstash/conf.d/logstash.conf
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.5.2
+    volumes:
+      - ./containers/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  userregister:
+    container_name: userRegister
+    build: ./UserRegisteration/
+    environment:
+      USER_PORT: ${USER_PORT}
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    restart: always
+    depends_on:
+      - logstash
+      
+  helloworld:
+    container_name: helloWorld
+    build: ./helloworld/
+    environment:
+      HELLOWORLD_PORT: ${HELLOWORLD_PORT}
+    ports:
+      - ${HELLOWORLD_PORT}:${HELLOWORLD_PORT}
+    restart: always
+    depends_on:
+      - logstash
+      
+  gateway:
+    container_name: app-gateway
+    build: ./demogateway/
+    environment:
+      HELLO_URL: ${HELLO_URL}
+      USER_URL: ${USER_URL}
+      GATEWAY_PORT: ${GATEWAY_PORT}
+    ports:
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
+    restart: always
+    depends_on:
+      - logstash
+      - helloworld
+      - userregister

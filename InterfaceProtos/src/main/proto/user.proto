@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package com.volvo.users;
+
+option java_multiple_files = true;
+option java_package = "com.volvo.user.lib";
+option java_outer_classname = "UserProto";
+
+// The greeting service definition.
+service UserService {
+    // User services
+    rpc getUserById (UserIdRequest) returns (UserRequest);
+    rpc register (UserRequest) returns (UserResponse);
+    rpc login (UserRequest) returns (UserResponse);
+    rpc logout (UserRequest) returns (UserResponse);
+}
+
+// The request message containing the user's name.
+message UserRequest {
+	string firstName=1;
+	string sureName=2;
+	int32 age=3;
+	string email=4;
+	string address=5;
+    string userName = 6;
+    int32 password=7;
+    
+}
+message UserIdRequest {
+    int32 id=1;
+    
+}
+// The response message containing the greetings
+message UserResponse {
+    string message = 1;
+    int32 code =2;
+}
