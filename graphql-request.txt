@@ -1,0 +1,18 @@
+query{
+ hello(name:"ahmed")
+}
+
+
+query{
+  hello(name:"ahmed")
+  user(id:1){
+    firstName
+    sureName
+    address
+  }
+}
+
+
+mutation{
+  registerUser(firstName: "mokhtar", sureName:"ahmed",age:29, email: "mokthar@gmail.com",address:"polanda",userName: "me5a",password:12345698) 
+}
