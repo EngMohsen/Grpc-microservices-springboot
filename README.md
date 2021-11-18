@@ -80,6 +80,11 @@ You can access kibana by using (http://localhost:5601/) but you need to create a
 
 ![image](https://user-images.githubusercontent.com/9844631/141382878-9c4372ac-be60-4eeb-b5ec-67b24bb8ee5e.png)
 
+## Enhancement
+* Adding Nosql DB like (cassandra,MongoDb)
+* Building pipeline to automate the deployment process to cloud.
+* Running ELK by Kubernetes. 
+
 
 
 
